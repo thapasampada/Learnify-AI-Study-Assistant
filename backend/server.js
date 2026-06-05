@@ -6,7 +6,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import connectDB from './config/db.js';
-import errorHandler from'./middleware/errorHandler.js';
+import errorHandler from './middleware/errorHandler.js';
+import authRoutes from './routes/authRoutes.js';
 
 // ES6 module __dirname alternative
 const __filename = fileURLToPath(import.meta.url);
@@ -31,7 +32,11 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
+//static folder for uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 //Routes
+app.use('/api/auth' , authRoutes)
 
 app.use(errorHandler);
 
