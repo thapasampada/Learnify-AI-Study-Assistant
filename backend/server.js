@@ -41,11 +41,18 @@ app.use('/api/auth' , authRoutes)
 app.use(errorHandler);
 
 // 404 handler
-app.use((req, res) =>{
-   res.status(404).json({
-    success: false,
-    error: 'Route not found',
-    statusCode: 404
+// app.use((req, res) =>{
+//   res.status(404).json({
+//    success: false,
+//    error: 'Route not found',
+//    statusCode: 404
+//   });
+// });
+app.use('/health',(req, res) =>{
+   res.status(200).json({
+    success: true,
+    error: 'Route is ok',
+    statusCode: 200
    });
 });
 

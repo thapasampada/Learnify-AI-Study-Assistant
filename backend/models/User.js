@@ -39,8 +39,6 @@ userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
-const salt= awaitbcryt.genSalt(10);
-this.password=await bcrypt.hash(this.password, salt);
 
 // Instance method to compare passwords
 userSchema.methods.matchPassword = async function (enteredPassword) {

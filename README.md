@@ -1,4 +1,4 @@
-# Learnify AI Study Assistant
+=# Learnify AI Study Assistant
 
 An AI-powered learning assistant built using MERN Stack and Gemini API.
 
