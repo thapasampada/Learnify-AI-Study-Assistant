@@ -1,0 +1,41 @@
+.dashboard-container{
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(17,24,39,0.06);
+  font-family: inherit;
+}
+
+.dashboard-header{ display:flex; align-items:center; justify-content:space-between; }
+
+textarea.generate-text{
+  width:100%;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  padding:12px;
+  font-size:14px;
+  resize:vertical;
+}
+
+.controls{ display:flex; gap:12px; align-items:center; margin-top:10px }
+
+.controls input[type="number"]{ width:80px; padding:6px; border-radius:6px; border:1px solid #e5e7eb }
+
+button.generate-btn{
+  background:#FF9324; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;
+}
+button.generate-btn:disabled{ opacity:0.6; cursor:not-allowed }
+
+.flashcards-list{ margin-top:18px; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px }
+
+.card{ background:#fafafa; border-radius:8px; padding:12px; border:1px solid #f1f5f9 }
+.card strong{ color:#0f172a }
+
+.card button{ background:transparent; border:1px solid #e5e7eb; padding:6px 8px; border-radius:6px; cursor:pointer }
+.card button:hover{ background:#fff7ed }
+
+.message{ color:#059669; margin-left:8px }
+
+.error{ color:#b91c1c; margin-top:8px }

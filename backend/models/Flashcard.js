@@ -22,5 +22,8 @@ const flashcardSchema = new Schema(
   { timestamps: true }
 );
 
-Flashcard.index({ user: 1, document: 1 });
+flashcardSchema.index({ user: 1, document: 1 });
+
+const Flashcard = mongoose.model('Flashcard', flashcardSchema);
+
 export default Flashcard;
