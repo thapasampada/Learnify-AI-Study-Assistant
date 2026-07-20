@@ -34,13 +34,13 @@ if(err.name === 'JsonwebTokenError'){
   statusCode = 401;
 }
 
-if(err.name === 'JsonWebTokenError') {
+if(err.name === 'JsonWebExpiredError') {
   message = 'Your token has expired. Please log in again.';
   statusCode = 401;
 }
 
 console.error('Error:' ,{
-  message = err.message,
+  message: err.message,
   stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
 })
 
