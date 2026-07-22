@@ -316,7 +316,7 @@ export const getChatHistory = async (req, res, next) => {
         const chatHistory = await ChatHistory.findOne({
             userId: req.user._id,
             documentId: documentId
-        }).select('message') // ONly retrieve the message array
+        }).select('messages') // Only retrieve the messages array
 
         if(!chatHistory) {
             return res.status(200).json({
