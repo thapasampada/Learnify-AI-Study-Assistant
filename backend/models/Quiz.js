@@ -56,25 +56,25 @@ const quizSchema = new mongoose.Schema({
   ],
 
   userAnswers: [
-    {
-      questionIndex: {
-        type: Number,
-        required: true
-      },
-      selectedAnswer: {
-        type: String,
-        required: true
-      },
-      selectedAnswer: {
-        type: String,
-        required: true
-      },
-      answeredAt: {
-        type: Date,
-        default: Date.now
-      }
+  {
+    questionIndex: {
+      type: Number,
+      required: true
+    },
+    selectedAnswer: {
+      type: String,
+      required: true
+    },
+    isCorrect: {
+      type: Boolean,
+      required: true
+    },
+    answeredAt: {
+      type: Date,
+      default: Date.now
     }
-  ],
+  }
+],
   score: {
     type: Number,
     default: 0

@@ -5,7 +5,7 @@ import Flashcard from "../models/Flashcard.js";
 // @access Private
 export const getFlashcards = async (req, res, next) => {
     try {
-        const flashcards = await Flashcard.findOne({ documentId: req.params.documentId, 
+        const flashcards = await Flashcard.find({ documentId: req.params.documentId, 
             userId: req.user._id })
             .populate('documentId', 'title fileName')
             .sort({ createdAt: -1 });
@@ -17,6 +17,7 @@ export const getFlashcards = async (req, res, next) => {
             });
 
     } catch (error) {
+        console.error('getFlashcards error:', error);
         next(error);
     }
 };

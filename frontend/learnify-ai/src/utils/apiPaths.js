@@ -28,7 +28,7 @@ export const API_PATHS = {
 
     FLASHCARDS: {
         GET_ALL_FLASHCARD_SETS: "/api/flashcards",
-        GET_FALSHCARDS_FOR_DOC: (documentId) => `/api/flashcards/${documentId}`,
+        GET_FLASHCARDS_FOR_DOC: (documentId) => `/api/flashcards/${documentId}`,
         REVIEW_FLASHCARD: (cardId) => `/api/flashcards/${cardId}/review`,
         TOGGLE_STAR: (cardId) => `/api/flashcards/${cardId}/star`,
         DELETE_FLASHCARD_SET: (id) => `/api/flashcards/${id}`,
@@ -44,5 +44,12 @@ export const API_PATHS = {
 
     PROGRESS: {
         GET_DASHBOARD: "/api/progress/dashboard",
+    },
+
+        EVENTS: {
+        GET_EVENTS: "/api/events",
+        CREATE_EVENT: "/api/events",
+        UPDATE_EVENT: (id) => `/api/events/${id}`,
+        DELETE_EVENT: (id) => `/api/events/${id}`,
     },
 };

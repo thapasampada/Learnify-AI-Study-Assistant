@@ -31,7 +31,7 @@ const generateSummary = async (documentId) => {
       API_PATHS.AI.GENERATE_SUMMARY,
       { documentId }
     );
-    return response.data;
+    return response.data?.data;
   } catch (error) {
     throw error.response?.data || { message: "Failed to generate summary" };
   }
@@ -47,7 +47,7 @@ const chat = async (documentId, message) => {
       } // Removed history from payload
     );
 
-    return response.data.data;
+    return response.data;
   } catch (error) {
     throw error.response?.data || { message: "Chat request failed" };
   }
@@ -81,7 +81,7 @@ const getChatHistory = async (documentId) => {
   }
 };
 
-const aiServices = {
+const aiService = {
     generateFlashcards,
     generateQuiz,
     generateSummary,

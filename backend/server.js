@@ -14,6 +14,7 @@ import flashcardRoutes from './routes/flashcardRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
 import quizRoutes from './routes/quizRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
+import eventRoutes from './routes/eventRoutes.js'
 
 // ES6 module __dirname alternative
 const __filename = fileURLToPath(import.meta.url);
@@ -38,6 +39,9 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
+// Static files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 //Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/documents', documentRoutes);
@@ -45,8 +49,8 @@ app.use('/api/flashcards', flashcardRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use ('/api/progress',progressRoutes );
+app.use ('/api/events', eventRoutes);
 
-app.use(errorHandler);
 
 // 404 handler
 app.use((req, res) =>{

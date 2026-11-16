@@ -6,8 +6,8 @@ import { BrainCircuit, Mail, Lock, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('kelly@timetoprogram.com');
-  const [password, setPassword] = useState('Test@123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
@@ -70,6 +70,7 @@ const LoginPage = () => {
                   onBlur={() => setFocusedField(null)}
                   className="w-full h-12 pl-12 pr-4 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-emerald-500 focus:bg-white focus:shadow-lg focus:shadow-emerald-500/10"
                   placeholder="you@example.com"
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -90,7 +91,8 @@ const LoginPage = () => {
                   onFocus={() => setFocusedField('password')}
                   onBlur={() => setFocusedField(null)}
                   className="w-full h-12 pl-12 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-emerald-500 focus:shadow-lg focus:shadow-emerald-500/10"
-                  placeholder="........"
+                  placeholder="Enter your password"
+                  autoComplete="new-password"
                 />
               </div>
             </div>

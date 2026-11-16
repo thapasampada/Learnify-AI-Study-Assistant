@@ -1,7 +1,7 @@
 import Document from '../models/Document.js';
 import Flashcard from '../models/Flashcard.js';
 import Quiz from '../models/Quiz.js';
-import CHatHistory from '../models/ChatHistory.js';
+import ChatHistory from '../models/chatHistory.js'
 import * as geminiService from '../utils/geminiService.js';
 import {findRelevantChunks} from '../utils/textChunker.js';
 
@@ -105,7 +105,7 @@ export const generateQuiz = async (req, res, next) => {
             totalQuestions: questions.length,
             userAnswers: [],
             score: 0,
-            });
+        });
 
         res.status(201).json({
             success: true,
@@ -160,175 +160,176 @@ export const generateSummary = async (req, res, next) => {
         });
     } catch (error) {
         next(error);
-    }};
-
-    //@desc  Char with document content
-    //@route POST /api/ai/chat-with-document
-    //@access Private
-    export const chatWithDocument = async (req, res, next) => {
-        try {
-            const { documentId, question } = req.body;
-
-            if (!documentId || !question) {
-                return res.status(400).json({
-                    success: false,
-                    error: 'Please provide both Document ID and question',
-                    statusCode: 400
-                });
-            }
-            
-            const document = await Document.findOne({
-                _id: documentId,
-                userId: req.user._id,
-                status: 'ready'
-            });
-
-            if (!document) {
-                return res.status(404).json({
-                    success: false,
-                    error: 'Document not found or not ready for processing',
-                    statusCode: 404
-                });
-            }
-                // Find relevant chunks of the document for context
-                const relevantChunks = findRelevantChunks(document.chunks, question, 3);
-                const chunkIndices = relevantChunks.map(chunk => chunk.chunkIndex);
-
-                // Get or create chat history for the document
-                let chatHistory = await CHatHistory.findOne({
-                    documentId: document._id,
-                    userId: req.user._id
-                });
-
-                if (!chatHistory) {
-                    chatHistory = await CHatHistory.create({
-                        documentId: document._id,
-                        userId: req.user._id,
-                        messages: []
-                    });
-                }
-
-                // Generate response using the Gemini API
-                const answer = await geminiService.chatWithDocument(question, relevantChunks);
-
-                // Save conversation
-                chatHistory.messages.push({
-                    role: 'user',
-                    content: question,
-                    timestamp: new Date(),
-                    relevantChunks: []
-                },
-                {
-                    role: 'assistant',
-                    content: answer,
-                    timestamp: new Date(),
-                    relevantChunks: chunkIndices
-                }
-            );
-
-            await chatHistory.save();
-
-            res.status(200).json({
-                success: true,
-                data: {
-                    question,
-                    answer,
-                    relevantChunks: chunkIndices,
-                    chatHistoryId: chatHistory._id
-                },
-                message: 'response generated successfully'
-            });
-        
-        } catch (error) {
-            next(error);
-    }};
-
-        // @desc Explain concept from document content
-        // @route POST /api/ai/explain-concept
-        // @access Private
-        export const explainConcept = async (req, res, next) => {
-            try{
-const {documentId, concept } = req.body;
-
-if(!documentId || !concept) {
-    return res.status(400).json({
-        success: false,
-        error: 'Please provide documentId and concept',
-        statusCode: 400
-    });
-}
-
-const document = await Document.findOne({
-    _id: documentId,
-    userId: req.user._id,
-    status: 'ready'
-});
-
-if (!document) {
-    return res.status(404).json({
-        success: false,
-        error: 'Document not found or not ready',
-        statusCode: 404
-    });
-}
-
-// Find relevant chunks for the concept
-const relevantChunks = findRelevantChunks(document.chunks, concept, 3);
-const context = relevantChunks.map(c => c.content).join('\n\n');
-
-// Generate explanation using Gemini
-const explanation = await geminiService.explainConcept(concept, context);
-
-res.status(200).json({
-    success: true,
-    data: {
-        concept,
-        explanation,
-        relevantChunks: relevantChunks.map(c =>c.chunkIndex)
-    },
-    message: 'Explanation generated successfully'
-});
-            } catch (error) {
-                next(error)
-            }
-            };
-        
-
-        // @desc Get chat history for a document
-        // @route GET /api/ai/chat-history/:documentId
-        // @access Private
-        export const getChatHistory = async (req, res, next) => {
-try{
-    const { documentId } = req.params;
-
-    if(!documentId) {
-        return res.status(400).json({
-            success: false,
-            error: 'please provide documentId',
-            statusCode: 400
-        });
     }
+};
 
-    const chatHistory = await chatHistory.findOne({
-        userId: req.user._id,
-        documentId: documentId
-    }).select('messages'); //only retrieve the messages array
-    
+// @desc Chat with document content
+// @route POST /api/ai/chat-with-document
+// @access Private
+export const chatWithDocument = async (req, res, next) => {
+    try {
+        const { documentId, question } = req.body;
 
-if(!chatHistory) {
-    return res.status(200).json({
-        success: true,
-        data: [], // return an empty array if no chat histroy found
-        message: 'No chat history found for this document'
-    });
-}
-
-res.status(200).json({
-    success: true,
-    data: chatHistory.messages,
-    message: 'Chat history retrieved successfully'
-});
-        } catch (error) {
-            next(error)
+        if (!documentId || !question) {
+            return res.status(400).json({
+                success: false,
+                error: 'Please provide both Document ID and question',
+                statusCode: 400
+            });
         }
-        };
+
+        const document = await Document.findOne({
+            _id: documentId,
+            userId: req.user._id,
+            status: 'ready'
+        });
+
+        if (!document) {
+            return res.status(404).json({
+                success: false,
+                error: 'Document not found or not ready for processing',
+                statusCode: 404
+            });
+        }
+
+        // Find relevant chunks of the document for context
+        const relevantChunks = findRelevantChunks(document.chunks, question, 3);
+        const chunkIndices = relevantChunks.map(chunk => chunk.chunkIndex);
+
+        // Get or create chat history for the document
+        let chatHistory = await ChatHistory.findOne({
+            documentId: document._id,
+            userId: req.user._id
+        });
+
+        if (!chatHistory) {
+            chatHistory = await ChatHistory.create({
+                documentId: document._id,
+                userId: req.user._id,
+                messages: []
+            });
+        }
+
+        // Generate response using the Gemini API
+        const answer = await geminiService.chatWithDocument(question, relevantChunks);
+
+        // Save conversation
+        chatHistory.messages.push(
+            {
+                role: 'user',
+                content: question,
+                timestamp: new Date(),
+                relevantChunks: []
+            },
+            {
+                role: 'assistant',
+                content: answer,
+                timestamp: new Date(),
+                relevantChunks: chunkIndices
+            }
+        );
+
+        await chatHistory.save();
+
+        res.status(200).json({
+            success: true,
+            data: {
+                question,
+                answer,
+                relevantChunks: chunkIndices,
+                chatHistoryId: chatHistory._id
+            },
+            message: 'response generated successfully'
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// @desc Explain concept from document content
+// @route POST /api/ai/explain-concept
+// @access Private
+export const explainConcept = async (req, res, next) => {
+    try {
+        const { documentId, concept } = req.body;
+
+        if (!documentId || !concept) {
+            return res.status(400).json({
+                success: false,
+                error: 'Please provide documentId and concept',
+                statusCode: 400
+            });
+        }
+
+        const document = await Document.findOne({
+            _id: documentId,
+            userId: req.user._id,
+            status: 'ready'
+        });
+
+        if (!document) {
+            return res.status(404).json({
+                success: false,
+                error: 'Document not found or not ready',
+                statusCode: 404
+            });
+        }
+
+        // Find relevant chunks for the concept
+        const relevantChunks = findRelevantChunks(document.chunks, concept, 3);
+        const context = relevantChunks.map(c => c.content).join('\n\n');
+
+        // Generate explanation using Gemini
+        const explanation = await geminiService.explainConcept(concept, context);
+
+        res.status(200).json({
+            success: true,
+            data: {
+                concept,
+                explanation,
+                relevantChunks: relevantChunks.map(c => c.chunkIndex)
+            },
+            message: 'Explanation generated successfully'
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// @desc Get chat history for a document
+// @route GET /api/ai/chat-history/:documentId
+// @access Private
+export const getChatHistory = async (req, res, next) => {
+    try {
+        const { documentId } = req.params;
+
+        if (!documentId) {
+            return res.status(400).json({
+                success: false,
+                error: 'please provide documentId',
+                statusCode: 400
+            });
+        }
+
+        const chatHistory = await ChatHistory.findOne({
+            userId: req.user._id,
+            documentId: documentId
+        }).select('messages'); // only retrieve the messages array
+
+        if (!chatHistory) {
+            return res.status(200).json({
+                success: true,
+                data: [], // return an empty array if no chat history found
+                message: 'No chat history found for this document'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: chatHistory.messages,
+            message: 'Chat history retrieved successfully'
+        });
+    } catch (error) {
+        next(error);
+    }
+};

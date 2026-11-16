@@ -15,6 +15,7 @@ const getFlashcardsForDocument = async (documentId) => {
     const response = await axiosInstance.get(API_PATHS.FLASHCARDS.GET_FLASHCARDS_FOR_DOC(documentId));
     return response.data;
   } catch (error) {
+    console.error('RAW ERROR:', error);
     throw error.response?.data || { message: 'Failed to fetch flashcards' };
   }
 };

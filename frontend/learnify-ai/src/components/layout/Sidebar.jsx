@@ -2,7 +2,7 @@ import React from 'react'
 
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, FileText, User, LogOut, BrainCircuit, BookOpen, X } from 'lucide-react';
+import { LayoutDashboard, FileText, User, LogOut, BrainCircuit, BookOpen, CalendarDays, X } from 'lucide-react';
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const { logout } = useAuth();
@@ -17,6 +17,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     { to: '/dashboard', icon: LayoutDashboard, text: 'Dashboard' },
     { to: '/documents', icon: FileText, text: 'Documents' },
     { to: '/flashcards', icon: BookOpen, text: 'Flashcards' },
+    { to: '/calendar', icon: CalendarDays, text: 'Calendar & tasks' },
     { to: '/profile', icon: User, text: 'Profile' },
   ];
 

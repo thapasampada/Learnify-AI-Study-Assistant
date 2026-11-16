@@ -2,7 +2,7 @@ import express from 'express';
 import {
     getQuizzes,
     getQuizById,
-    SubmitQuiz,
+    submitQuiz,
     getQuizResults,
     deleteQuiz
 } from '../controllers/quizController.js';
@@ -15,7 +15,7 @@ router.use(protect);
 
 router.get('/:documentId', getQuizzes);
 router.get('/quiz/:id', getQuizById);
-router.post('/:id/submit', SubmitQuiz);
+router.post('/:id/submit', submitQuiz);
 router.get('/:id/results', getQuizResults);
 router.delete('/:id', deleteQuiz);
 

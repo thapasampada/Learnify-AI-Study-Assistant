@@ -11,6 +11,7 @@ import FlashcardPage from './pages/Flashcards/FlashcardPage';
 import QuizTakePage from './pages/Quizzes/QuizTakePage';
 import QuizResultPage from './pages/Quizzes/QuizResultPage';
 import ProfilePage from './pages/Profile/ProfilePage';
+import CalendarPage from './pages/Calendar/CalendarPage';
 
 const App =() => {
   const isAuthenticated = false
@@ -47,6 +48,10 @@ const App =() => {
   <Route path="/documents/:id" element={<DocumentDetailPage />} />
   <Route path="/flashcards" element={<FlashcardsListPage />} />
   <Route path="/documents/:id/flashcards" element={<FlashcardPage />} />
+  <Route path="/quizzes/:quizId" element={<QuizTakePage />} />
+  <Route path="/quizzes/:quizId/results" element={<QuizResultPage />} />
+  <Route path="/profile" element={<ProfilePage />} />
+  <Route path="/calendar" element={<CalendarPage />} />
 </Route>
 
 {/* Catch-all */}
@@ -56,4 +61,4 @@ const App =() => {
   );
 };
  
-export default App;
+export default App; 
